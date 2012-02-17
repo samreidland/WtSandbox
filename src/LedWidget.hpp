@@ -5,27 +5,21 @@
 
 #include <Wt/WContainerWidget>
 
-#include "testserver.hpp"
 
-typedef boost::signal<void (int)> LedSignal;
+enum LED_STATE {LED_OFF, LED_GREEN, LED_YELLOW, LED_RED};
 
 class LedWidget : public Wt::WContainerWidget
 {
    public:
-      LedWidget(LedSignal& sig, Wt::WContainerWidget *parent = NULL);
+
+      LedWidget(Wt::WContainerWidget *parent = NULL);
       ~LedWidget();
 
-      void connect();
-
-      void showLed(int led);
-
-      void updateLed(int led);
+      void setLed(LED_STATE led);
 
    private:
       std::vector<Wt::WImage *> mImages;
-      int mnImage;
-      boost::signals::connection mConnection;
-      Wt::WApplication *mpApp;
+      LED_STATE mnImage;
 
       Wt::WImage *getImage(int index) const;
 };

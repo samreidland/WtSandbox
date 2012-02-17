@@ -5,7 +5,7 @@
 using namespace Wt;
 
 
-LedWidget::LedWidget(LedSignal& sig, Wt::WContainerWidget *parent) :
+LedWidget::LedWidget(Wt::WContainerWidget *parent) :
    WContainerWidget(parent)
 {
    //setStyleClass("led");
@@ -27,34 +27,16 @@ LedWidget::LedWidget(LedSignal& sig, Wt::WContainerWidget *parent) :
    mImages.push_back(image);
    image->hide();
 
-   mnImage = 0;
-   showLed(mnImage);
+   mnImage = LED_OFF;
+   setLed(mnImage);
 
-   mConnection = sig.connect(boost::bind(&LedWidget::updateLed, this, _1));
-   WApplication::instance()->enableUpdates();
-   mpApp = WApplication::instance();
-   printf("Application = %08x\n", mpApp);
 }
 
 LedWidget::~LedWidget()
 {
-   mConnection.disconnect();
 }
 
-void LedWidget::updateLed(int led)
-{
-   printf("updateLed %d\n", led);
-   WApplication::UpdateLock lock(mpApp);
-   if (lock)
-   {
-      printf("Got lock\n");
-      showLed(led);
-
-      mpApp->triggerUpdate();
-   }
-}
-
-void LedWidget::showLed(int led)
+void LedWidget::setLed(LED_STATE led)
 {
    getImage(mnImage)->hide();
    mnImage = led;
@@ -63,6 +45,5 @@ void LedWidget::showLed(int led)
 
 WImage *LedWidget::getImage(int index) const
 {
-   printf("getImage %d\n", index);
    return mImages[index];
 }
