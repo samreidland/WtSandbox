@@ -6,44 +6,24 @@ using namespace Wt;
 
 
 LedWidget::LedWidget(Wt::WContainerWidget *parent) :
-   WContainerWidget(parent)
+   WContainerWidget(parent),
+   mLedOffImage("images/led_off.png"),
+   mLedGreenImage("images/led_green.png"),
+   mLedYellowImage("images/led_yellow.png"),
+   mLedRedImage("images/led_red.png")
 {
    //setStyleClass("led");
-   WImage *image;
+   mpLed = new WStackedWidget(this);
+   mpLed->insertWidget(LED_OFF, &mLedOffImage);
+   mpLed->insertWidget(LED_GREEN, &mLedGreenImage);
+   mpLed->insertWidget(LED_YELLOW, &mLedYellowImage);
+   mpLed->insertWidget(LED_RED, &mLedRedImage);
 
-   image = new WImage("images/led_off.png", this);
-   mImages.push_back(image);
-   image->hide();
-
-   image = new WImage("images/led_green.png", this);
-   mImages.push_back(image);
-   image->hide();
-
-   image = new WImage("images/led_red.png", this);
-   mImages.push_back(image);
-   image->hide();
-
-   image = new WImage("images/led_yellow.png", this);
-   mImages.push_back(image);
-   image->hide();
-
-   mnImage = LED_OFF;
-   setLed(mnImage);
-
-}
-
-LedWidget::~LedWidget()
-{
+   mpLed->setCurrentIndex(LED_OFF);
 }
 
 void LedWidget::setLed(LED_STATE led)
 {
-   getImage(mnImage)->hide();
-   mnImage = led;
-   getImage(mnImage)->show();
+   mpLed->setCurrentIndex(led);
 }
 
-WImage *LedWidget::getImage(int index) const
-{
-   return mImages[index];
-}
