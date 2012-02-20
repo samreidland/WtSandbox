@@ -1,11 +1,13 @@
 #include "LedWidget.hpp"
 
 #include <Wt/WImage>
+#include <Wt/WTable>
+#include <Wt/WText>
 
 using namespace Wt;
 
 
-LedWidget::LedWidget(Wt::WContainerWidget *parent) :
+LedWidget::LedWidget(WText *pLabel, Side labelSide, WContainerWidget *parent) :
    WContainerWidget(parent),
    mLedOffImage("images/led_off.png"),
    mLedGreenImage("images/led_green.png"),
@@ -20,10 +22,62 @@ LedWidget::LedWidget(Wt::WContainerWidget *parent) :
    mpLed->insertWidget(LED_RED, &mLedRedImage);
 
    mpLed->setCurrentIndex(LED_OFF);
+
+   WTable *table = new WTable(this);
+
+   if (pLabel != NULL)
+   {
+      switch (labelSide)
+      {
+         case Top:
+            table->elementAt(0,0)->addWidget(pLabel);
+            table->elementAt(1,0)->addWidget(mpLed);
+            break;
+         case Bottom:
+            table->elementAt(0,0)->addWidget(mpLed);
+            table->elementAt(1,0)->addWidget(pLabel);
+            break;
+         case Left:
+            table->elementAt(0,0)->addWidget(pLabel);
+            table->elementAt(0,1)->addWidget(mpLed);
+            break;
+         case Right:
+            table->elementAt(0,0)->addWidget(mpLed);
+            table->elementAt(0,1)->addWidget(pLabel);
+            break;
+         default:
+            break;
+      }
+   }
 }
 
 void LedWidget::setLed(LED_STATE led)
 {
    mpLed->setCurrentIndex(led);
+}
+
+void LedWidget::setLabel(const char *szText, Side side)
+{
+   if (mpLabel != NULL)
+   {
+      removeWidget(mpLabel);
+      delete mpLabel;
+   }
+   mpLabel = new WText(szText);
+   switch (side)
+   {
+      case Left:
+         break;
+      case Right:
+         break;
+      case Top:
+         insertWidget(0, mpLabel);
+         break;
+      case Bottom:
+         insertWidget(1, mpLabel);
+         break;
+      default:
+         break;
+   }
 }
 

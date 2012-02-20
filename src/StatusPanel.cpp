@@ -1,5 +1,6 @@
 #include <Wt/WPanel>
 #include <Wt/WTable>
+#include <Wt/WText>
 
 #include "StatusPanel.hpp"
 
@@ -13,9 +14,13 @@ StatusPanel::StatusPanel(WContainerWidget *pParent) :
    
 
    WTable *pLedTable = new WTable();
-   mpAlarmMinor = new LedWidget();
-   mpAlarmMajor = new LedWidget();
-   mpAlarmCritical = new LedWidget();
+   pLedTable->setMargin(WLength::Auto, Left | Right);
+   mpAlarmMinor = new LedWidget(new WText("Minor"), Left);
+
+   mpAlarmMajor = new LedWidget(new WText("Major"), Bottom);
+
+   mpAlarmCritical = new LedWidget(new WText("Critical"), Top);
+
    pLedTable->elementAt(0, 0)->addWidget(mpAlarmMinor);
    pLedTable->elementAt(0, 1)->addWidget(mpAlarmMajor);
    pLedTable->elementAt(0, 2)->addWidget(mpAlarmCritical);

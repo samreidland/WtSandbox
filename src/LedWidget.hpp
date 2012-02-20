@@ -14,9 +14,10 @@ class LedWidget : public Wt::WContainerWidget
 {
    public:
 
-      LedWidget(Wt::WContainerWidget *parent = NULL);
+      LedWidget(Wt::WText *pLabel = NULL, Wt::Side labelSide = Wt::Bottom, Wt::WContainerWidget *parent = NULL);
 
       void setLed(LED_STATE led);
+      void setLabel(const char *szText, Wt::Side side);
 
    private:
       Wt::WImage           mLedOffImage;
@@ -24,6 +25,7 @@ class LedWidget : public Wt::WContainerWidget
       Wt::WImage           mLedYellowImage;
       Wt::WImage           mLedRedImage;
       Wt::WStackedWidget   *mpLed;
+      Wt::WText            *mpLabel;
 };
 
 #endif
