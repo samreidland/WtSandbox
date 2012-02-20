@@ -1,11 +1,10 @@
-#include "LedWidget.hpp"
-
 #include <Wt/WImage>
 #include <Wt/WTable>
 #include <Wt/WText>
 
-using namespace Wt;
+#include "LedWidget.hpp"
 
+using namespace Wt;
 
 LedWidget::LedWidget(WText *pLabel, Side labelSide, WContainerWidget *parent) :
    WContainerWidget(parent),
@@ -32,18 +31,22 @@ LedWidget::LedWidget(WText *pLabel, Side labelSide, WContainerWidget *parent) :
          case Top:
             table->elementAt(0,0)->addWidget(pLabel);
             table->elementAt(1,0)->addWidget(mpLed);
+            table->elementAt(0,0)->setContentAlignment(AlignCenter);
             break;
          case Bottom:
             table->elementAt(0,0)->addWidget(mpLed);
             table->elementAt(1,0)->addWidget(pLabel);
+            table->elementAt(1,0)->setContentAlignment(AlignCenter);
             break;
          case Left:
             table->elementAt(0,0)->addWidget(pLabel);
             table->elementAt(0,1)->addWidget(mpLed);
+            table->elementAt(0,0)->setContentAlignment(AlignMiddle);
             break;
          case Right:
             table->elementAt(0,0)->addWidget(mpLed);
             table->elementAt(0,1)->addWidget(pLabel);
+            table->elementAt(0,1)->setContentAlignment(AlignMiddle);
             break;
          default:
             break;
