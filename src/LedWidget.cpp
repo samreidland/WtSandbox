@@ -1,69 +1,86 @@
-#include "LedWidget.hpp"
-
-
 #include <Wt/WImage>
+#include <Wt/WTable>
+#include <Wt/WText>
+
+#include "LedWidget.hpp"
 
 using namespace Wt;
 
-
-LedWidget::LedWidget(LedSignal& sig, Wt::WContainerWidget *parent) :
-   WContainerWidget(parent)
+LedWidget::LedWidget(WText *pLabel, Side labelSide, WContainerWidget *parent) :
+   WContainerWidget(parent),
+   mLedOffImage("images/led_off.png"),
+   mLedGreenImage("images/led_green.png"),
+   mLedYellowImage("images/led_yellow.png"),
+   mLedRedImage("images/led_red.png")
 {
    //setStyleClass("led");
-   WImage *image;
+   mpLed = new WStackedWidget(this);
+   mpLed->insertWidget(LED_OFF, &mLedOffImage);
+   mpLed->insertWidget(LED_GREEN, &mLedGreenImage);
+   mpLed->insertWidget(LED_YELLOW, &mLedYellowImage);
+   mpLed->insertWidget(LED_RED, &mLedRedImage);
 
-   image = new WImage("images/led_off.png", this);
-   mImages.push_back(image);
-   image->hide();
+   mpLed->setCurrentIndex(LED_OFF);
 
-   image = new WImage("images/led_green.png", this);
-   mImages.push_back(image);
-   image->hide();
+   WTable *table = new WTable(this);
 
-   image = new WImage("images/led_red.png", this);
-   mImages.push_back(image);
-   image->hide();
-
-   image = new WImage("images/led_yellow.png", this);
-   mImages.push_back(image);
-   image->hide();
-
-   mnImage = 0;
-   showLed(mnImage);
-
-   mConnection = sig.connect(boost::bind(&LedWidget::updateLed, this, _1));
-   WApplication::instance()->enableUpdates();
-   mpApp = WApplication::instance();
-   printf("Application = %08x\n", mpApp);
-}
-
-LedWidget::~LedWidget()
-{
-   mConnection.disconnect();
-}
-
-void LedWidget::updateLed(int led)
-{
-   printf("updateLed %d\n", led);
-   WApplication::UpdateLock lock(mpApp);
-   if (lock)
+   if (pLabel != NULL)
    {
-      printf("Got lock\n");
-      showLed(led);
-
-      mpApp->triggerUpdate();
+      switch (labelSide)
+      {
+         case Top:
+            table->elementAt(0,0)->addWidget(pLabel);
+            table->elementAt(1,0)->addWidget(mpLed);
+            table->elementAt(0,0)->setContentAlignment(AlignCenter);
+            break;
+         case Bottom:
+            table->elementAt(0,0)->addWidget(mpLed);
+            table->elementAt(1,0)->addWidget(pLabel);
+            table->elementAt(1,0)->setContentAlignment(AlignCenter);
+            break;
+         case Left:
+            table->elementAt(0,0)->addWidget(pLabel);
+            table->elementAt(0,1)->addWidget(mpLed);
+            table->elementAt(0,0)->setContentAlignment(AlignMiddle);
+            break;
+         case Right:
+            table->elementAt(0,0)->addWidget(mpLed);
+            table->elementAt(0,1)->addWidget(pLabel);
+            table->elementAt(0,1)->setContentAlignment(AlignMiddle);
+            break;
+         default:
+            break;
+      }
    }
 }
 
-void LedWidget::showLed(int led)
+void LedWidget::setLed(LED_STATE led)
 {
-   getImage(mnImage)->hide();
-   mnImage = led;
-   getImage(mnImage)->show();
+   mpLed->setCurrentIndex(led);
 }
 
-WImage *LedWidget::getImage(int index) const
+void LedWidget::setLabel(const char *szText, Side side)
 {
-   printf("getImage %d\n", index);
-   return mImages[index];
+   if (mpLabel != NULL)
+   {
+      removeWidget(mpLabel);
+      delete mpLabel;
+   }
+   mpLabel = new WText(szText);
+   switch (side)
+   {
+      case Left:
+         break;
+      case Right:
+         break;
+      case Top:
+         insertWidget(0, mpLabel);
+         break;
+      case Bottom:
+         insertWidget(1, mpLabel);
+         break;
+      default:
+         break;
+   }
 }
+

@@ -4,30 +4,28 @@
 #include <vector>
 
 #include <Wt/WContainerWidget>
+#include <Wt/WImage>
+#include <Wt/WStackedWidget>
 
-#include "testserver.hpp"
 
-typedef boost::signal<void (int)> LedSignal;
+enum LED_STATE {LED_OFF, LED_GREEN, LED_YELLOW, LED_RED};
 
 class LedWidget : public Wt::WContainerWidget
 {
    public:
-      LedWidget(LedSignal& sig, Wt::WContainerWidget *parent = NULL);
-      ~LedWidget();
 
-      void connect();
+      LedWidget(Wt::WText *pLabel = NULL, Wt::Side labelSide = Wt::Bottom, Wt::WContainerWidget *parent = NULL);
 
-      void showLed(int led);
-
-      void updateLed(int led);
+      void setLed(LED_STATE led);
+      void setLabel(const char *szText, Wt::Side side);
 
    private:
-      std::vector<Wt::WImage *> mImages;
-      int mnImage;
-      boost::signals::connection mConnection;
-      Wt::WApplication *mpApp;
-
-      Wt::WImage *getImage(int index) const;
+      Wt::WImage           mLedOffImage;
+      Wt::WImage           mLedGreenImage;
+      Wt::WImage           mLedYellowImage;
+      Wt::WImage           mLedRedImage;
+      Wt::WStackedWidget   *mpLed;
+      Wt::WText            *mpLabel;
 };
 
 #endif
