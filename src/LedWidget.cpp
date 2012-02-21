@@ -32,20 +32,26 @@ LedWidget::LedWidget(WText *pLabel, Side labelSide, WContainerWidget *parent) :
             table->elementAt(0,0)->addWidget(pLabel);
             table->elementAt(1,0)->addWidget(mpLed);
             table->elementAt(0,0)->setContentAlignment(AlignCenter);
+            table->elementAt(1,0)->setContentAlignment(AlignCenter);
             break;
          case Bottom:
+            pLabel->setPadding(10, Left | Right);
             table->elementAt(0,0)->addWidget(mpLed);
             table->elementAt(1,0)->addWidget(pLabel);
+            table->elementAt(0,0)->setContentAlignment(AlignCenter);
             table->elementAt(1,0)->setContentAlignment(AlignCenter);
+            //table->elementAt(1,0)->setPadding(20, Left);
             break;
          case Left:
             table->elementAt(0,0)->addWidget(pLabel);
             table->elementAt(0,1)->addWidget(mpLed);
             table->elementAt(0,0)->setContentAlignment(AlignMiddle);
+            table->elementAt(0,1)->setContentAlignment(AlignTextBottom);
             break;
          case Right:
             table->elementAt(0,0)->addWidget(mpLed);
             table->elementAt(0,1)->addWidget(pLabel);
+            table->elementAt(0,0)->setContentAlignment(AlignMiddle);
             table->elementAt(0,1)->setContentAlignment(AlignMiddle);
             break;
          default:

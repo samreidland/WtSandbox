@@ -15,11 +15,11 @@ StatusPanel::StatusPanel(WContainerWidget *pParent) :
 
    WTable *pLedTable = new WTable();
    pLedTable->setMargin(WLength::Auto, Left | Right);
-   mpAlarmMinor = new LedWidget(new WText("Minor"), Left);
+   mpAlarmMinor = new LedWidget(new WText("Minor"), Bottom);
 
    mpAlarmMajor = new LedWidget(new WText("Major"), Bottom);
 
-   mpAlarmCritical = new LedWidget(new WText("Critical"), Top);
+   mpAlarmCritical = new LedWidget(new WText("Critical"), Bottom);
 
    pLedTable->elementAt(0, 0)->addWidget(mpAlarmMinor);
    pLedTable->elementAt(0, 1)->addWidget(mpAlarmMajor);
