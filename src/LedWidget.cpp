@@ -15,12 +15,12 @@ LedWidget::LedWidget(WText *pLabel, Side labelSide, WContainerWidget *parent) :
 {
    //setStyleClass("led");
    mpLed = new WStackedWidget(this);
-   mpLed->insertWidget(LED_OFF, &mLedOffImage);
-   mpLed->insertWidget(LED_GREEN, &mLedGreenImage);
-   mpLed->insertWidget(LED_YELLOW, &mLedYellowImage);
-   mpLed->insertWidget(LED_RED, &mLedRedImage);
+   mpLed->insertWidget(WIDGET_LED_OFF, &mLedOffImage);
+   mpLed->insertWidget(WIDGET_LED_GREEN, &mLedGreenImage);
+   mpLed->insertWidget(WIDGET_LED_YELLOW, &mLedYellowImage);
+   mpLed->insertWidget(WIDGET_LED_RED, &mLedRedImage);
 
-   mpLed->setCurrentIndex(LED_OFF);
+   mpLed->setCurrentIndex(WIDGET_LED_OFF);
 
    WTable *table = new WTable(this);
 
@@ -60,7 +60,7 @@ LedWidget::LedWidget(WText *pLabel, Side labelSide, WContainerWidget *parent) :
    }
 }
 
-void LedWidget::setLed(LED_STATE led)
+void LedWidget::setLed(WIDGET_LED_STATE led)
 {
    mpLed->setCurrentIndex(led);
 }

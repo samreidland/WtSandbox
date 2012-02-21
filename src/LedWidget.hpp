@@ -7,16 +7,14 @@
 #include <Wt/WImage>
 #include <Wt/WStackedWidget>
 
-
-enum LED_STATE {LED_OFF, LED_GREEN, LED_YELLOW, LED_RED};
-
 class LedWidget : public Wt::WContainerWidget
 {
    public:
+      enum WIDGET_LED_STATE {WIDGET_LED_OFF, WIDGET_LED_GREEN, WIDGET_LED_YELLOW, WIDGET_LED_RED};
 
       LedWidget(Wt::WText *pLabel = NULL, Wt::Side labelSide = Wt::Bottom, Wt::WContainerWidget *parent = NULL);
 
-      void setLed(LED_STATE led);
+      void setLed(WIDGET_LED_STATE led);
       void setLabel(const char *szText, Wt::Side side);
 
    private:

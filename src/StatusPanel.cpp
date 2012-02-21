@@ -25,10 +25,8 @@ StatusPanel::StatusPanel(WContainerWidget *pParent) :
    pLedTable->elementAt(0, 1)->addWidget(mpAlarmMajor);
    pLedTable->elementAt(0, 2)->addWidget(mpAlarmCritical);
 
-
    pPanel->setCentralWidget(pLedTable);
-
-
+   pPanel->setCollapsible(true);
 }
 
 void StatusPanel::setAlarmState(ALARM_STATE state)
@@ -36,24 +34,24 @@ void StatusPanel::setAlarmState(ALARM_STATE state)
    switch (state)
    {
    case OFF:
-      mpAlarmMinor->setLed(LED_OFF);
-      mpAlarmMajor->setLed(LED_OFF);
-      mpAlarmCritical->setLed(LED_OFF);
+      mpAlarmMinor->setLed(LedWidget::WIDGET_LED_OFF);
+      mpAlarmMajor->setLed(LedWidget::WIDGET_LED_OFF);
+      mpAlarmCritical->setLed(LedWidget::WIDGET_LED_OFF);
       break;
    case MINOR:
-      mpAlarmMinor->setLed(LED_RED);
-      mpAlarmMajor->setLed(LED_OFF);
-      mpAlarmCritical->setLed(LED_OFF);
+      mpAlarmMinor->setLed(LedWidget::WIDGET_LED_YELLOW);
+      mpAlarmMajor->setLed(LedWidget::WIDGET_LED_OFF);
+      mpAlarmCritical->setLed(LedWidget::WIDGET_LED_OFF);
       break;
    case MAJOR:
-      mpAlarmMinor->setLed(LED_OFF);
-      mpAlarmMajor->setLed(LED_RED);
-      mpAlarmCritical->setLed(LED_OFF);
+      mpAlarmMinor->setLed(LedWidget::WIDGET_LED_OFF);
+      mpAlarmMajor->setLed(LedWidget::WIDGET_LED_RED);
+      mpAlarmCritical->setLed(LedWidget::WIDGET_LED_OFF);
       break;
    case CRITICAL:
-      mpAlarmMinor->setLed(LED_OFF);
-      mpAlarmMajor->setLed(LED_OFF);
-      mpAlarmCritical->setLed(LED_RED);
+      mpAlarmMinor->setLed(LedWidget::WIDGET_LED_OFF);
+      mpAlarmMajor->setLed(LedWidget::WIDGET_LED_OFF);
+      mpAlarmCritical->setLed(LedWidget::WIDGET_LED_RED);
       break;
    }
 }
